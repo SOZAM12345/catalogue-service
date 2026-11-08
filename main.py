@@ -1,5 +1,6 @@
 
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session, select
 
 from database import get_session
@@ -7,6 +8,15 @@ from models import Product
 
 # Créer notre microservice Catalogue
 app = FastAPI(title="Catalogue Microservice")
+
+# Autoriser la communication avec React
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 
 # API 1 : récupérer tous les produits
